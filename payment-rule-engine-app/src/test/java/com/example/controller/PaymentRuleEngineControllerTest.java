@@ -48,7 +48,7 @@ class PaymentRuleEngineControllerTest {
 
         when(paymentRuleEngineHandler.handleRequest(any(Map.class), any())).thenReturn(response);
 
-        mockMvc.perform(post("/evaluate")
+        mockMvc.perform(post("/evaluatePaymentRules")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"Country\":\"Norway\"}"))
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ class PaymentRuleEngineControllerTest {
 
         when(paymentRuleEngineHandler.handleRequest(any(Map.class), any())).thenReturn(response);
 
-        mockMvc.perform(post("/evaluate")
+        mockMvc.perform(post("/evaluatePaymentRules")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"Country\":\"Norway\"}"))
                 .andExpect(status().isOk())

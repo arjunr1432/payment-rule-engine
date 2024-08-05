@@ -22,12 +22,3 @@ services:
     environment:
       - DYNAMO_ENDPOINT=http://dynamodb-local:8000
       - AWS_REGION=ap-southeast-1
-
-  payment-rule-engine-app:
-    image: arjunr1432/payment-rule-engine-app
-    ports:
-      - "8080:8080"
-    environment:
-      AWS_DYNAMODB_ENDPOINT: http://dynamodb-local:8000
-    depends_on:
-      - dynamodb-local

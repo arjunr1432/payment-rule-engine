@@ -66,7 +66,7 @@ public class PaymentRuleEngineHandlerTest {
         when(iterator.hasNext()).thenReturn(true, false);
         when(iterator.next()).thenReturn(item1);
         when(itemCollection.iterator()).thenReturn(iterator);
-        doReturn(itemCollection).when(table).scan(any(ScanSpec.class));
+        doReturn(itemCollection).when(table).scan(anyString(), anyMap(), anyMap());
 
 
         // When

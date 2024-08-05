@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/evaluate")
+@RequestMapping(value = "/evaluatePaymentRules")
 public class PaymentRuleEngineController {
 
     private final PaymentRuleEngineHandler paymentRuleEngineHandler;
@@ -31,7 +31,7 @@ public class PaymentRuleEngineController {
     }
 
     @PostMapping
-    public Map<String, Object> evaluateApi(@RequestBody Map<String, Object> input) {
+    public Map<String, Object> evaluatePaymentRules(@RequestBody Map<String, Object> input) {
         return (paymentRuleEngineHandler.handleRequest(input, null));
     }
 }

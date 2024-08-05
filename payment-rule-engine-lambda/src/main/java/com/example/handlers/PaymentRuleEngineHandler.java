@@ -4,9 +4,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.example.models.DBScanSpec;
+import com.example.utils.PaymentRuleEngineUtils;
 import com.example.validators.RequestValidator;
 
 import java.math.BigDecimal;
@@ -48,15 +49,23 @@ public class PaymentRuleEngineHandler implements RequestHandler<Map<String, Obje
                 LOGGER.warning("Request contains validation errors: " + errorBuilder);
                 return Map.of("Error", errorBuilder.toString());
             }
-            var ruleIterator = table.scan(new ScanSpec()).iterator();
-            while (ruleIterator.hasNext()) {
-                var item = ruleIterator.next();
-                Map<String, Object> criteria = item.getMap("Criteria");
-                Map<String, Object> action = item.getMap("Action");
+            DBScanSpec dbScanSpec = PaymentRuleEngineUtils.getDBScanSpecification(input);
+            if (dbScanSpec.isNoneMatched()) {
+                LOGGER.info("No input params matched for request: " + input);
+            } else {
+                var ruleIterator = table.scan(
+                        dbScanSpec.getFilterCondition(),
+                        dbScanSpec.getAttributeNameMap(),
+                        dbScanSpec.getAttributeValueMap()).iterator();
+                while (ruleIterator.hasNext()) {
+                    var item = ruleIterator.next();
+                    Map<String, Object> criteria = item.getMap("Criteria");
+                    Map<String, Object> action = item.getMap("Action");
 
-                if (matchesCriteria(input, criteria)) {
-                    applyAction(input, action, result);
-                    LOGGER.info("Rule matched: " + item.get("RuleID"));
+                    if (matchesCriteria(input, criteria)) {
+                        applyAction(input, action, result);
+                        LOGGER.info("Rule matched: " + item.get("RuleID"));
+                    }
                 }
             }
         } catch (Exception ignored) {
