@@ -15,14 +15,6 @@ public class PaymentRuleEngineUtils {
         if (null != input && !input.isEmpty()) {
             input.keySet().forEach(key -> {
                 switch (key) {
-                    case "Country", "PaymentMethod", "CustomerType", "Currency", "Previous3DS" -> {
-                        if (!ref.noneMatched)
-                            filterBuilder.append(" OR ");
-                        filterBuilder.append("Criteria.#").append(key).append(" = :").append(key);
-                        dbScanSpec.getAttributeNameMap().put("#" + key, key);
-                        dbScanSpec.getAttributeValueMap().put(":" + key, input.get(key));
-                        ref.noneMatched = false;
-                    }
                     case "DaysSinceLast3DS" -> {
                         if (!ref.noneMatched)
                             filterBuilder.append(" OR ");
@@ -30,10 +22,18 @@ public class PaymentRuleEngineUtils {
                         ref.noneMatched = false;
                     }
                     case "TransactionAmount" -> {
-                         if (!ref.noneMatched)
-                             filterBuilder.append(" OR ");
-                         filterBuilder.append("attribute_exists(Criteria.TransactionAmountGreaterThan) OR attribute_exists(Criteria.TransactionAmountLessThan)");
-                         ref.noneMatched = false;
+                        if (!ref.noneMatched)
+                            filterBuilder.append(" OR ");
+                        filterBuilder.append("attribute_exists(Criteria.TransactionAmountGreaterThan) OR attribute_exists(Criteria.TransactionAmountLessThan)");
+                        ref.noneMatched = false;
+                    }
+                    default -> {
+                        if (!ref.noneMatched)
+                            filterBuilder.append(" OR ");
+                        filterBuilder.append("Criteria.#").append(key).append(" = :").append(key);
+                        dbScanSpec.getAttributeNameMap().put("#" + key, key);
+                        dbScanSpec.getAttributeValueMap().put(":" + key, input.get(key));
+                        ref.noneMatched = false;
                     }
                 }
             });

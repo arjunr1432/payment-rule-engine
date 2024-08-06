@@ -112,12 +112,9 @@ public class PaymentRuleEngineHandler implements RequestHandler<Map<String, Obje
     private void applyAction(Map<String, Object> input, Map<String, Object> action, Map<String, Object> result) {
         action.forEach((key, value) -> {
             switch (key) {
-                case "PaymentMethod", "Waive3DS", "EnableFeature", "RequireAdditionalVerification" ->
-                        result.put(key, value);
                 case "Routing" -> result.put("Routing", selectRouteBasedOnConfiguration((Map<String, Object>) value));
                 case "ApplyFee" -> result.put("Fee", calculateFee(input, (BigDecimal) value));
-                default -> {
-                }
+                default -> result.put(key, value);
             }
         });
     }

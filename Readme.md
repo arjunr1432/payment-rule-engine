@@ -19,11 +19,12 @@ Inorder to test and work easily, the project is designed in two modules.
 
 ## API Specification
 
-The API specification for the application can be viewed from 
+The API specification for the application can be viewed from
 
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
+
 Remarks !! The application needs to be started locally to view and play with the APIS :)
 
 ## Build and Running (Locally)
@@ -72,6 +73,7 @@ data/sample_requests.txt
 ```
 
 Please make use of the API spec URL to test the apis.
+
 ### Stop
 
 To stop the application and kill the created docker containers, run the following command.

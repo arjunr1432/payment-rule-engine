@@ -22,6 +22,7 @@ public class ApiController {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
     @GetMapping("/spec")
     public ResponseEntity<String> getApiSpec() throws IOException {
         String spec;

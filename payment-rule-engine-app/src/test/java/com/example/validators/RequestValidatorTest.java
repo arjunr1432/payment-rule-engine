@@ -109,7 +109,7 @@ class RequestValidatorTest {
         boolean isValid = validator.validate(input, sb);
 
         assertFalse(isValid);
-        assertEquals("[Validation Errors: 1:- TransactionAmount should be a valid double value > 0. ]", sb.toString());
+        assertEquals("[Validation Errors: 1:- TransactionAmount should be a valid decimal value > 0.0 ]", sb.toString());
     }
 
     @Test

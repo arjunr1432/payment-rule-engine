@@ -4,7 +4,6 @@ package com.example.controller;
 import com.example.handlers.PaymentRuleEngineHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -28,12 +27,12 @@ class PaymentRuleEngineControllerTest {
     @Mock
     private PaymentRuleEngineHandler paymentRuleEngineHandler;
 
-    @InjectMocks
     private PaymentRuleEngineController paymentRuleEngineController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        paymentRuleEngineController = new PaymentRuleEngineController("http://localhost:8000");
         mockMvc = MockMvcBuilders.standaloneSetup(paymentRuleEngineController).build();
         ReflectionTestUtils.setField(paymentRuleEngineController, "paymentRuleEngineHandler", paymentRuleEngineHandler);
     }

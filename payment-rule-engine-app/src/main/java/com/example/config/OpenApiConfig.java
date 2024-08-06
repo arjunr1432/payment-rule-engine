@@ -23,6 +23,7 @@ public class OpenApiConfig {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
     @Bean
     public OpenAPI customOpenAPI() throws IOException {
         String spec;

@@ -88,7 +88,7 @@ public class PaymentRuleEngineHandlerTest {
         Map<String, Object> result = handler.handleRequest(input, context);
 
         // Then
-        assertEquals("[Validation Errors: 1:- TransactionAmount should be a valid double value > 0. ]", result.get("Error"));
+        assertEquals("[Validation Errors: 1:- TransactionAmount should be a valid decimal value > 0.0 ]", result.get("Error"));
     }
 
     @Test

@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.example.handlers.PaymentRuleEngineHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +21,10 @@ public class PaymentRuleEngineController {
 
     private final PaymentRuleEngineHandler paymentRuleEngineHandler;
 
-    public PaymentRuleEngineController() {
+    public PaymentRuleEngineController(@Value("${dynamo.db.url}") String dynamoDbUrl) {
         // Local dynamo DB instance creation
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://dynamodb-local:8000", "us-west-2"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(dynamoDbUrl, "us-west-2"))
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("dummyAccessKey", "dummySecretKey")))
                 .build();
         this.paymentRuleEngineHandler = new PaymentRuleEngineHandler(new DynamoDB(client));

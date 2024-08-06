@@ -63,7 +63,7 @@ public class RequestValidator {
                     break;
                 case "TransactionAmount":
                     if (!(value instanceof Double) || ((Double) value) <= 0) {
-                        stringBuilder.append(errorCount++).append(":- TransactionAmount should be a valid double value > 0. ");
+                        stringBuilder.append(errorCount++).append(":- TransactionAmount should be a valid decimal value > 0.0 ");
                         requestValid = false;
                     }
                     break;
